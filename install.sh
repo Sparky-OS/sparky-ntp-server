@@ -14,8 +14,47 @@
 #  along with this program; if not, write to the Free Software Foundation,
 #  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
+detect_cc() {
+    tz=$(timedatectl show --value -p Timezone 2>/dev/null || cat /etc/timezone 2>/dev/null)
+    [ -z "$tz" ] && return
+    grep -F "${tz}" /usr/share/zoneinfo/zone.tab 2>/dev/null | awk 'NR==1{print tolower($1)}'
+}
+
+generate_servers() {
+    cc="$1"
+    if [ "$cc" = "br" ]; then
+        cat <<EOF
+server a.st1.ntp.br    iburst prefer
+server b.st1.ntp.br    iburst
+server c.st1.ntp.br    iburst
+EOF
+    else
+        prefix="${cc:+$cc.}"
+        cat <<EOF
+server 0.${prefix}pool.ntp.org    iburst
+server 1.${prefix}pool.ntp.org    iburst
+server 2.${prefix}pool.ntp.org    iburst
+server 3.${prefix}pool.ntp.org    iburst
+EOF
+    fi
+}
+
+install_conf() {
+    cc=$(detect_cc)
+    servers=$(generate_servers "$cc")
+    dest=/etc/sparky-ntp.conf
+    {
+        while IFS= read -r line; do
+            case "$line" in
+                *'@NTP_SERVERS@'*) printf '%s\n' "$servers" ;;
+                *) printf '%s\n' "$line" ;;
+            esac
+        done < etc/sparky-ntp.conf
+    } > "$dest"
+}
+
 if [ "$1" = "uninstall" ]; then
-	rm -f /etc/sparky-ntp.conf
+        rm -f /etc/sparky-ntp.conf
 else
-	cp etc/* /etc/
+        install_conf
 fi

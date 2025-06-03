@@ -1,12 +1,15 @@
 # Sparky NTP Server
 
 This package provides its own NTP configuration for Sparky Server.
-It synchronizes the system clock with the official Brazilian time
-servers maintained by the government (ntp.br).
+During installation the script attempts to detect your system's
+timezone and configures a suitable set of public NTP servers.  For
+Brazilian timezones the official government servers (ntp.br) are
+used, otherwise the appropriate pool.ntp.org hosts are configured.
 
-The provided `etc/sparky-ntp.conf` is copied to `/etc/sparky-ntp.conf`
-by the installation script. You can further customize this file to add
-additional peers or adjust restrictions as needed.
+The provided `etc/sparky-ntp.conf` is used as a template and written to
+`/etc/sparky-ntp.conf` during installation. If the automatically chosen
+servers are not ideal, simply edit this file afterwards to point to the
+servers of your choice.
 
 Copyright (C) 2019-2020 Daniel Campos Ramos & Paweł Pijanowski
 
