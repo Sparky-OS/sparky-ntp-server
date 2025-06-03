@@ -1,5 +1,12 @@
-Sparky NTP Server
-This privides ntp own config for Sparky Server.
+# Sparky NTP Server
+
+This package provides its own NTP configuration for Sparky Server.
+It synchronizes the system clock with the official Brazilian time
+servers maintained by the government (ntp.br).
+
+The provided `etc/sparky-ntp.conf` is copied to `/etc/sparky-ntp.conf`
+by the installation script. You can further customize this file to add
+additional peers or adjust restrictions as needed.
 
 Copyright (C) 2019-2020 Daniel Campos Ramos & Paweł Pijanowski
 
@@ -16,16 +23,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-Dependencies:
--------------
-ntp
+## Dependencies
 
-Install:
--------------
-su (or sudo) 
+* `ntp` package
+
+## Install
+
+Run as root (or with `sudo`):
+
+```
 ./install.sh
+```
 
-Uninstall:
--------------
-su (or sudo)
+## Uninstall
+
+Run as root (or with `sudo`):
+
+```
 ./install.sh uninstall
+```
