@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
-  Version 20240611 (2024-06-11)
+  Version 20250603 (2025-06-03)
 -------------------------------------------------------------------------------
   * Auto-detect timezone during installation and select appropriate NTP servers
   * Configuration can be changed manually after installation
