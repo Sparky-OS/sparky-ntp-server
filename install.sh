@@ -22,7 +22,7 @@
 detect_cc() {
     tz=$(timedatectl show --value -p Timezone 2>/dev/null || cat /etc/timezone 2>/dev/null)
     [ -z "$tz" ] && return
-    grep -F "${tz}" /usr/share/zoneinfo/zone.tab 2>/dev/null | awk 'NR==1{print tolower($1)}'
+    grep -E "\s${tz}$" /usr/share/zoneinfo/zone.tab 2>/dev/null | awk 'NR==1{print tolower($1)}'
 }
 
 #
@@ -72,8 +72,14 @@ install_conf() {
     } > "$dest"
 }
 
-if [ "$1" = "uninstall" ]; then
-        rm -f /etc/sparky-ntp.conf
-else
-        install_conf
+main() {
+    if [ "$1" = "uninstall" ]; then
+            rm -f /etc/sparky-ntp.conf
+    else
+            install_conf
+    fi
+}
+
+if [ "$0" = "install.sh" ] || [ "$0" = "./install.sh" ]; then
+    main "$@"
 fi
