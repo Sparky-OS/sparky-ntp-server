@@ -72,11 +72,43 @@ install_conf() {
     } > "$dest"
 }
 
-main() {
-    if [ "$1" = "uninstall" ]; then
-            rm -f /etc/sparky-ntp.conf
+#
+# Loads the appropriate translation file based on the system's language.
+#
+# This function detects the system's language from the LANG environment
+# variable and sources the corresponding translation file from the `locale`
+# directory. If a specific translation is not found, it defaults to English.
+#
+load_translations() {
+    lang=$(echo "$LANG" | cut -d'_' -f1)
+    # Default to English if no language is set
+    if [ -z "$lang" ]; then
+        lang="en"
+    fi
+    # Source the translation file, defaulting to English if not found
+    if [ -f "locale/${lang}.sh" ]; then
+        . "locale/${lang}.sh"
     else
-            install_conf
+        . "locale/en.sh"
+    fi
+}
+
+main() {
+    load_translations
+
+    if [ "$(id -u)" -ne 0 ]; then
+        echo "$MSG_MUST_BE_ROOT" >&2
+        exit 1
+    fi
+
+    if [ "$1" = "uninstall" ]; then
+        echo "$MSG_UNINSTALLING"
+        rm -f /etc/sparky-ntp.conf
+        echo "$MSG_UNINSTALLATION_COMPLETE"
+    else
+        echo "$MSG_INSTALLING"
+        install_conf
+        echo "$MSG_INSTALLATION_COMPLETE"
     fi
 }
 
