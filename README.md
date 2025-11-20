@@ -39,6 +39,15 @@ To remove the configuration, run the script with the `uninstall` argument:
 
 If you need to use specific NTP servers, you can edit `/etc/sparky-ntp.conf` after installation. The file follows the standard `ntp.conf` format.
 
+## Multi-language Support
+
+The installation script is available in multiple languages and will automatically detect your system's language. If your language is not supported, it will default to English.
+
+To add a new translation:
+1.  Copy `locale/en.sh` to a new file named `locale/<language_code>.sh` (e.g., `locale/ja.sh` for Japanese).
+2.  Translate the strings in the new file.
+3.  The script will automatically detect and use the new translation.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request with your suggested changes.

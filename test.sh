@@ -84,10 +84,18 @@ install_conf() {
 }
 
 main() {
+    # Since we sourced install.sh, load_translations is available.
+    # We don't need to mock it because we have the real locale files.
+    load_translations
+
     if [ "$1" = "uninstall" ]; then
-            rm -f "$MOCK_DEST_SPARKY_NTP_CONF"
+        echo "$MSG_UNINSTALLING"
+        rm -f "$MOCK_DEST_SPARKY_NTP_CONF"
+        echo "$MSG_UNINSTALLATION_COMPLETE"
     else
-            install_conf
+        echo "$MSG_INSTALLING"
+        install_conf
+        echo "$MSG_INSTALLATION_COMPLETE"
     fi
 }
 
@@ -107,6 +115,28 @@ detect_cc() {
 
 
 # --- Test Cases ---
+
+test_load_translations() {
+    # Test English default
+    LANG=""
+    load_translations
+    assert_equals "This script must be run as root. Please use sudo." "$MSG_MUST_BE_ROOT" "load_translations should default to English"
+
+    # Test Spanish
+    LANG="es_ES.UTF-8"
+    load_translations
+    assert_equals "Este script debe ejecutarse como root. Por favor, use sudo." "$MSG_MUST_BE_ROOT" "load_translations should load Spanish"
+
+    # Test German
+    LANG="de_DE.UTF-8"
+    load_translations
+    assert_equals "Dieses Skript muss als Root ausgeführt werden. Bitte verwenden Sie sudo." "$MSG_MUST_BE_ROOT" "load_translations should load German"
+
+    # Test French
+    LANG="fr_FR.UTF-8"
+    load_translations
+    assert_equals "Ce script doit être exécuté en tant que root. Veuillez utiliser sudo." "$MSG_MUST_BE_ROOT" "load_translations should load French"
+}
 
 # Test for detect_cc function
 test_detect_cc() {
@@ -149,6 +179,7 @@ run_test() {
     echo
 }
 
+run_test test_load_translations
 run_test test_detect_cc
 run_test test_generate_servers
 
@@ -160,10 +191,25 @@ test_install_conf() {
 
 run_test test_install_conf
 
+test_main_install() {
+    LANG=""
+    output=$(main)
+    expected_output="Installing Sparky NTP configuration...
+Installation complete. Configuration file created at /etc/sparky-ntp.conf."
+    assert_equals "$expected_output" "$output" "main install should print the correct messages"
+}
+
+run_test test_main_install
+
 test_main_uninstall() {
+    LANG=""
     # Create a dummy file to be removed
     touch "$MOCK_DEST_SPARKY_NTP_CONF"
-    main "uninstall"
+    output=$(main "uninstall")
+    expected_output="Uninstalling Sparky NTP configuration...
+Uninstallation complete."
+    assert_equals "$expected_output" "$output" "main uninstall should print the correct messages"
+
     if [ -f "$MOCK_DEST_SPARKY_NTP_CONF" ]; then
         echo "Assertion failed: main uninstall should remove the config file"
         exit 1
