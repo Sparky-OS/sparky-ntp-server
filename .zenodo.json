@@ -1,0 +1,35 @@
+{
+  "title": "sparky-ntp-server: time sync by country, and a LAN time server",
+  "description": "Time synchronisation by country over the WAN, and a time server for the LAN, for SparkyLinux servers.",
+  "creators": [
+    {
+      "name": "Ramos, Daniel Campos",
+      "orcid": "0009-0001-4546-8673"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Pijanowski, Paweł",
+      "affiliation": "SparkyLinux",
+      "type": "ProjectLeader"
+    }
+  ],
+  "license": "gpl-3.0-or-later",
+  "upload_type": "software",
+  "access_right": "open",
+  "keywords": [
+    "SparkyLinux",
+    "Debian",
+    "small-business server",
+    "Bash",
+    "NTP",
+    "time synchronisation"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://sparkylinux.org/",
+      "relation": "isPartOf",
+      "scheme": "url"
+    }
+  ]
+}
