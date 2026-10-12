@@ -1,5 +1,7 @@
 # Sparky NTP Server
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23309054.svg)](https://doi.org/10.5281/zenodo.23309054)
+
 This package provides a custom NTP (Network Time Protocol) configuration for Sparky Server. During installation, it automatically detects your system's timezone and configures an appropriate set of public NTP servers.
 
 For Brazilian timezones, it defaults to the official government servers (`ntp.br`), while all other timezones use their respective `pool.ntp.org` hosts.
