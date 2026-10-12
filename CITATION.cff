@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: software
+title: "sparky-ntp-server: time sync by country, and a LAN time server"
+abstract: "Time synchronisation by country over the WAN, and a time server for the LAN, for SparkyLinux servers."
+authors:
+  - family-names: "Ramos"
+    given-names: "Daniel Campos"
+    orcid: "https://orcid.org/0009-0001-4546-8673"
+license: GPL-3.0-or-later
+repository-code: "https://github.com/Sparky-OS/sparky-ntp-server"
+keywords:
+  - "SparkyLinux"
+  - "Debian"
+  - "small-business server"
+  - "Bash"
+  - "NTP"
+  - "time synchronisation"
